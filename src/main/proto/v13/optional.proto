@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package v13;
+
+// пример импорта классов из другого прото файла
+import "google/protobuf/timestamp.proto";
+
+// классы оболочки для примитивных типов
+import "google/protobuf/wrappers.proto";
+
+option java_multiple_files = true;
+option java_package = 'kz.tansh.proto.v13';
+
+message SampleV2 {
+  google.protobuf.Int32Value age = 1;
+  optional int32 age2 = 3;
+}

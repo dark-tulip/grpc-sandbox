@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package v14.v4;
+
+option java_multiple_files = true;
+option java_package = 'kz.tansh.proto.v14.v4';
+
+message Television {
+  string brand = 1;
+  reserved 2;                  // хорошей практикой считается резервирование удаленных полей
+  reserved 'year', 'model';    // чтобы не было проблем в будущем, когда изменили имя поля,
+                               // но забыли про семантику, например поле раньше было year, теперь стало price - ЭТО ОПАСНО
+  Type type = 3;    // Добавилось новое поле
+}
+
+enum Type {
+  HD = 0;
+  UHD = 1;
+  OLED = 2;
+}

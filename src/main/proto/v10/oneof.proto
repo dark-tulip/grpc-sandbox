@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package v10;
+
+option java_multiple_files = true;
+option java_package = 'kz.tansh.proto.v10';
+
+message Phone {
+  string phone_number = 1;
+  string otp_code = 2;
+}
+
+message Email {
+  string email = 1;
+  string password = 2;
+}
+
+// аналог абстрактных классов на Java, где Authorization является общим типом,
+// внутренности oneof конкретными реализациями
+message Authorization {
+  oneof auth_type {
+      Email email = 1;
+      Phone phone = 2;
+  }
+}

@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package v5;
+
+option java_multiple_files = true;
+option java_package = 'kz.tansh.proto.v5';
+
+message Book {
+  string name = 1;
+  string author = 2;
+  int32 published_year = 3;
+}
+
+message Library {
+  string name = 1;
+  repeated Book books = 2;
+}

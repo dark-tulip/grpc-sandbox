@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package v14.v2;
+
+option java_multiple_files = true;
+option java_package = 'kz.tansh.proto.v14.v2';
+
+message Television {
+  string brand = 1;
+  int32 model = 2;  // поле было переименовано с year to model, и тег остался
+  Type type = 3;    // Добавилось новое поле
+  int32 year = 4;    // Добавилось новое поле
+}
+
+enum Type {
+  HD = 0;
+  UHD = 1;
+  OLED = 2;
+}

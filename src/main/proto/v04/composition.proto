@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package v04;
+
+option java_multiple_files = true;
+option java_package = "kz.tansh.proto.v4";
+
+message Address {
+  string street = 1;
+  string city = 2;
+  string state = 3;
+}
+
+message Student {
+  string name = 1;
+  Address address = 2;
+  School school = 3;
+}
+
+message School {
+  string name = 1;
+  Address address = 2;
+}
+
+
+

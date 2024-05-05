@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package v12;
+
+// пример импорта классов из другого прото файла
+import "v10/oneof.proto";
+
+option java_multiple_files = true;
+option java_package = 'kz.tansh.proto.v11';
+
+message Authorization2 {
+  oneof auth_type {
+    v10.Email email = 1;
+    v10.Phone phone = 2;
+    Otp otp = 3;
+  }
+}
+
+message Otp  {
+  string code = 1;
+}
