@@ -42,7 +42,8 @@ tag_number:stored_value
 ## Sync / Asyc stub
 - Синхронный - ожидает ответа
 - Асинхронный - register a listener for call back
-
+- only async stub can support all communication paterns
+- future stub and blocking stub support only unary and server streaming
 ## Java21
 - до 21 java 1 джава поток = 1 поток ОС => это дорого с точки зрения оперативной памяти
 - Создание синхронной заглушки дорого с точки зрения того что мы создаем для него один поток который ожидает ответа

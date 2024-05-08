@@ -17,6 +17,10 @@ public class GrpcServer {
     this.server = server;
   }
 
+  public static GrpcServer create(BindableService... bindableServices) {
+    return create(6565, bindableServices);
+  }
+
   public static GrpcServer create(int port, BindableService... bindableServices) {
     Server server = ServerBuilder.forPort(port)
                                  .addServices(Arrays.stream(bindableServices).map(BindableService::bindService).toList())
@@ -46,5 +50,10 @@ public class GrpcServer {
     } catch (InterruptedException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  public GrpcServer stop() {
+    this.server.shutdownNow();
+    return this;
   }
 }
