@@ -1,5 +1,6 @@
 package kz.tansh;
 
+import com.google.protobuf.Empty;
 import kz.tansh.client.AbstractTest;
 import kz.tansh.proto.v15.GetAccountRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -20,4 +21,13 @@ public class UnaryBlockingTest extends AbstractTest {
     log.info("response: " + response);
     Assertions.assertEquals(123, response.getAccountNumber());
   }
+
+  @Test
+  public void getAllAccounts() {
+    var response = this.blockingStub.getAllAccounts(Empty.newBuilder().build());
+    log.info("response: " + response);
+    Assertions.assertEquals(4, response.getAccountsCount());
+  }
+
+
 }

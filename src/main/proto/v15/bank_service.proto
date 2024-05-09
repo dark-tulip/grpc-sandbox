@@ -5,6 +5,8 @@ package v15;
 option java_multiple_files = true;
 option java_package = 'kz.tansh.proto.v15';
 
+import 'google/protobuf/empty.proto';
+
 message GetAccountRequest {
   int32 account_number = 1;
 }
@@ -14,6 +16,11 @@ message GetAccountResponse {
   int32 balance = 2;
 }
 
+message GetAllAccountsResponse {
+  repeated GetAccountResponse accounts = 1;
+}
+
 service BankService {
   rpc getAccountNumber(GetAccountRequest) returns (GetAccountResponse);
+  rpc getAllAccounts(google.protobuf.Empty) returns (GetAllAccountsResponse);
 }
