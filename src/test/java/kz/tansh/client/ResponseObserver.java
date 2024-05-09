@@ -27,6 +27,10 @@ public class ResponseObserver<T> implements StreamObserver<T> {
     return new ResponseObserver<>(1);
   }
 
+  public static <T> ResponseObserver<T> create(int latch) {
+    return new ResponseObserver<>(latch);
+  }
+
   /**
    * Через onNext() передается ответ от сервера
    * который мы сохраняем в синхронизированном списке
@@ -35,7 +39,6 @@ public class ResponseObserver<T> implements StreamObserver<T> {
   public void onNext(T t) {
     log.info("Received item: {}", t);
     this.list.add(t);
-    latch.countDown();
   }
 
   @Override
@@ -53,14 +56,14 @@ public class ResponseObserver<T> implements StreamObserver<T> {
 
   public void await() {
     try {
-      latch.await(5, TimeUnit.SECONDS);
+      latch.await(10, TimeUnit.SECONDS);
     } catch (InterruptedException e) {
       throw new RuntimeException(e);
     }
   }
 
   public List<T> getItems() {
-    return this.list;
+    return Collections.unmodifiableList(this.list);
   }
 
 }

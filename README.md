@@ -78,3 +78,7 @@ service BookService {
 - any periodic updates, like weather, stock price, large file download and etc
 - клиенту нет необходимости постоянно вызывать сервер
 - gRPC is lightweight to use it in Mobile applications
+
+![img.png](img/server-streaming.png)
+
+

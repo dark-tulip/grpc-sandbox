@@ -1,7 +1,6 @@
 package kz.tansh.services;
 
 import io.grpc.*;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;

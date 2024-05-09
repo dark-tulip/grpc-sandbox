@@ -38,28 +38,29 @@ public class BankService extends BankServiceGrpc.BankServiceImplBase {
   @Override
   public void withdrawAccount(WithdrawRequest request, StreamObserver<Money> responseObserver) {
     var accountNumber = request.getAccountNumber();             // номер аккаунта
-    var amount        = request.getAmount();                           // cумма для снятия
+    var requestAmount = request.getAmount();                           // cумма для снятия
     var balance       = accountRepository.getAccount(accountNumber);  // текущий баланс
 
-    if (balance.getBalance() < amount) {
+    if (balance.getBalance() < requestAmount) {
       responseObserver.onCompleted();  // not enough money
       return;
     }
 
+    log.info("amount will be sent: {}", (requestAmount / 10));
+
     // снимаем купюрами номиналом в 10 (долларов, например)
-    for (int i = 0; i < amount / 10; i++) {
+    for (int i = 0; i < (requestAmount / 10); i++) {
       Money money = Money.newBuilder().setAmount(10).build();
 
       // sent 10 dollars
       responseObserver.onNext(money);
 
+      log.info("money sent: {}", money);
+
       // withdraw dollars
       accountRepository.withdraw(accountNumber, money.getAmount());
 
-      log.info("money sent: {}", money);
-
       Uninterruptibles.sleepUninterruptibly(1, TimeUnit.SECONDS);
-
     }
 
     responseObserver.onCompleted();
