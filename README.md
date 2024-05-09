@@ -111,3 +111,9 @@ service BookService {
 
 
 ![img.png](img/client-streaming.png)
+
+
+### BiDirectional Streaming
+- game
+- chat
+- search response (побуквенный ввод и поиск)

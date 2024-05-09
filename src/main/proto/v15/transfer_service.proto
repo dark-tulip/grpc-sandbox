@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package v15;
+
+option java_multiple_files = true;
+option java_package = 'kz.tansh.proto.v15';
+
+import "v15/bank_service.proto";
+
+enum TransferStatus {
+  REJECTED = 0;
+  SUCCESS = 1;
+}
+
+message TransferResponse {
+  int32 account_from = 1;
+  int32 account_to = 2;
+  Money amount = 3;
+}
+
+message TransferRequest {
+  TransferStatus status = 1;
+  AccountBalanceResponse account_from = 2;
+  AccountBalanceResponse account_to = 3;
+}
+
+service TransferService {
+  rpc transfer (stream TransferRequest) returns (stream TransferResponse);
+}
