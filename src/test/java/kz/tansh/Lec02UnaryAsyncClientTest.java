@@ -28,8 +28,11 @@ public class Lec02UnaryAsyncClientTest extends AbstractTest {
       @Override
       public void onNext(GetAccountResponse response) {
         log.info("response: " + response);
-        Assertions.assertEquals(123, response.getAccountNumber());
-        latch.countDown();
+        try {
+          Assertions.assertEquals(123, response.getAccountNumber());
+        }  finally {
+          latch.countDown();
+        }
       }
 
       @Override
@@ -54,8 +57,11 @@ public class Lec02UnaryAsyncClientTest extends AbstractTest {
       @Override
       public void onNext(GetAllAccountsResponse response) {
         log.info("response: " + response);
-        Assertions.assertEquals(4, response.getAccountsCount());
-        latch.countDown();
+        try {
+          Assertions.assertEquals(4, response.getAccountsCount());
+        } finally {
+          latch.countDown();
+        }
       }
 
       @Override
