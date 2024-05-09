@@ -29,7 +29,7 @@ public class Lec02UnaryAsyncClientTest extends AbstractTest {
       public void onNext(GetAccountResponse response) {
         log.info("response: " + response);
         try {
-          Assertions.assertEquals(123, response.getAccountNumber());
+          Assertions.assertEquals(123, response.getAccountNumber());  // этот assert не сработает и не зафэйлит тест
         }  finally {
           latch.countDown();
         }
