@@ -1,23 +1,20 @@
 package kz.tansh.services;
 
+import com.google.common.util.concurrent.Uninterruptibles;
 import com.google.protobuf.Empty;
 import io.grpc.stub.StreamObserver;
+import kz.tansh.proto.v15.*;
 import kz.tansh.proto.v15.BankServiceGrpc;
-import kz.tansh.proto.v15.GetAccountRequest;
-import kz.tansh.proto.v15.GetAccountResponse;
-import kz.tansh.proto.v15.GetAllAccountsResponse;
+import kz.tansh.repos.AccountRepository;
+import lombok.extern.slf4j.Slf4j;
 
-import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 
+@Slf4j
 public class BankService extends BankServiceGrpc.BankServiceImplBase {
 
-  private final static HashMap<Integer, GetAccountResponse> bankAccountsRepository = new HashMap<>() {{
-    put(1, GetAccountResponse.newBuilder().setAccountNumber(1).setBalance(100).build());
-    put(2, GetAccountResponse.newBuilder().setAccountNumber(2).setBalance(200).build());
-    put(3, GetAccountResponse.newBuilder().setAccountNumber(3).setBalance(300).build());
-    put(4, GetAccountResponse.newBuilder().setAccountNumber(4).setBalance(400).build());
-  }};
+  AccountRepository accountRepository = new AccountRepository();
 
   @Override
   public void getAccountNumber(GetAccountRequest request, StreamObserver<GetAccountResponse> responseObserver) {
@@ -32,10 +29,40 @@ public class BankService extends BankServiceGrpc.BankServiceImplBase {
   @Override
   public void getAllAccounts(Empty request, StreamObserver<GetAllAccountsResponse> responseObserver) {
     responseObserver.onNext(GetAllAccountsResponse.newBuilder().addAllAccounts(
-        bankAccountsRepository.values()
+        accountRepository.getAccounts()
     ).build());
 
     responseObserver.onCompleted();
   }
 
+  @Override
+  public void withdrawAccount(WithdrawRequest request, StreamObserver<Money> responseObserver) {
+    var accountNumber = request.getAccountNumber();             // номер аккаунта
+    var amount        = request.getAmount();                           // cумма для снятия
+    var balance       = accountRepository.getAccount(accountNumber);  // текущий баланс
+
+    if (balance.getBalance() < amount) {
+      responseObserver.onCompleted();  // not enough money
+      return;
+    }
+
+    // снимаем купюрами номиналом в 10 (долларов, например)
+    for (int i = 0; i < amount / 10; i++) {
+      Money money = Money.newBuilder().setAmount(10).build();
+
+      // sent 10 dollars
+      responseObserver.onNext(money);
+
+      // withdraw dollars
+      accountRepository.withdraw(accountNumber, money.getAmount());
+
+      log.info("money sent: {}", money);
+
+      Uninterruptibles.sleepUninterruptibly(1, TimeUnit.SECONDS);
+
+    }
+
+    responseObserver.onCompleted();
+
+  }
 }

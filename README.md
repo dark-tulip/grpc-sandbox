@@ -30,6 +30,8 @@ tag_number:stored_value
 ![img_1.png](img/img_1.png)
 
 
+- there are 4 different communication patterns in gRPC
+
 ![img_2.png](img/img_2.png)
 
 ## Channel and stub
@@ -48,3 +50,31 @@ tag_number:stored_value
 - до 21 java 1 джава поток = 1 поток ОС => это дорого с точки зрения оперативной памяти
 - Создание синхронной заглушки дорого с точки зрения того что мы создаем для него один поток который ожидает ответа
 - вызов синхронных блокирующих стабов эффективней в Java21 за счет virtual threads, а иногда даже по перформансу аналогичен скорости как async stub
+
+
+## CRUD in gRPC 
+- **it is action oriented**
+- нет никакого GET, POST маппинга
+
+```protobuf
+syntax = "proto3";
+
+message Book {};
+
+message BookId {
+  int64 id = 1;
+}
+message Void {}
+
+service BookService {
+  rpc GetBook(BookId) returns (Book);
+  rpc SaveBook(Book) returns (Book);
+  rpc DeleteBook(BookId) returns (Void);
+  rpc UpdateBook(Book) returns (Book);
+}
+```
+
+## Server streaming
+- any periodic updates, like weather, stock price, large file download and etc
+- клиенту нет необходимости постоянно вызывать сервер
+- gRPC is lightweight to use it in Mobile applications

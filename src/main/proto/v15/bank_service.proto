@@ -20,7 +20,19 @@ message GetAllAccountsResponse {
   repeated GetAccountResponse accounts = 1;
 }
 
+message WithdrawRequest {
+  int32 account_number = 1;
+  int32 amount = 2;
+}
+
+message Money {
+  int32 amount = 1;
+}
 service BankService {
+  // unary
   rpc getAccountNumber(GetAccountRequest) returns (GetAccountResponse);
   rpc getAllAccounts(google.protobuf.Empty) returns (GetAllAccountsResponse);
+
+  // rpc streaming
+  rpc withdrawAccount(WithdrawRequest) returns (stream Money);
 }
