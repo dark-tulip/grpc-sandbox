@@ -58,7 +58,7 @@ public class Lec02UnaryAsyncClientTest extends AbstractTest {
       public void onNext(GetAllAccountsResponse response) {
         log.info("response: " + response);
         try {
-          Assertions.assertEquals(4, response.getAccountsCount());
+          Assertions.assertEquals(6, response.getAccountsCount());
         } finally {
           latch.countDown();
         }
