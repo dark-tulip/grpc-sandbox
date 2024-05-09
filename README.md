@@ -81,4 +81,17 @@ service BookService {
 
 ![img.png](img/server-streaming.png)
 
+- gRPC дает гарантию на четкий порядок отправленных сообщений
 
+### Когда использовать стримы, а когда unary call?
+
+#### Stream
+- когда рармер ответа неизвестен (сообщение может достигать до 15 ГБ) или большие файлы
+- periodic updates (time consuming)
+- more efficient when you execute multiple RPC calls
+- you need chunks to send data
+
+#### Unary call
+- more efficient than streaming RPC
+- size is not too big
+- operation is not time-consuming
