@@ -28,11 +28,28 @@ message WithdrawRequest {
 message Money {
   int32 amount = 1;
 }
+
+message DepositRequest {
+  oneof deposit {
+    int32 account_number = 1;  // set the context and init the request
+    Money money = 2;           // then send money to deposit
+  }
+}
+
+message AccountBalanceResponse {
+  int32 account_number = 1;
+  Money balance = 2;
+}
+
 service BankService {
   // unary
   rpc getAccountNumber(GetAccountRequest) returns (GetAccountResponse);
   rpc getAllAccounts(google.protobuf.Empty) returns (GetAllAccountsResponse);
 
-  // rpc streaming
+  // rpc server streaming
   rpc withdrawAccount(WithdrawRequest) returns (stream Money);
+
+  // rpc client streaming
+  rpc deposit(stream DepositRequest) returns (AccountBalanceResponse);
+
 }

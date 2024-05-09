@@ -82,7 +82,8 @@ service BookService {
 ![img.png](img/server-streaming.png)
 
 - gRPC дает гарантию на четкий порядок отправленных сообщений
-
+- если сервер отправляет пачку запросов целиком, быстрее чем клиент успевает обрабатывать - по умолчанию клиент последовательно `one by one sequentially` обрабатывает каждый запрос, 
+чтобы распараллелить обработку на стороне клиента можно использовать `ExecutorService`
 ### Когда использовать стримы, а когда unary call?
 
 #### Stream
@@ -95,3 +96,18 @@ service BookService {
 - more efficient than streaming RPC
 - size is not too big
 - operation is not time-consuming
+- даже принять моментально getAllAccounts with 100 records это норм для unary call
+
+
+### Client streaming examples
+- Расположение пользователя, геоданные
+- IoT устройства (температура, состояние)
+- видео стриминг
+- загрузка больших файлов
+
+Если клиент со своей стороны прервал стриминг по какой либо ошибке
+- хорошее место для коммита - `onCompleted`;
+- хорошее место для отката транзакции - `onError`
+
+
+![img.png](img/client-streaming.png)

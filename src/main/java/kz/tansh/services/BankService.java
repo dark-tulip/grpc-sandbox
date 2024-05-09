@@ -6,6 +6,7 @@ import io.grpc.stub.StreamObserver;
 import kz.tansh.proto.v15.*;
 import kz.tansh.proto.v15.BankServiceGrpc;
 import kz.tansh.repos.AccountRepository;
+import kz.tansh.requestHandlers.DepositRequestHandler;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.TimeUnit;
@@ -37,8 +38,8 @@ public class BankService extends BankServiceGrpc.BankServiceImplBase {
 
   @Override
   public void withdrawAccount(WithdrawRequest request, StreamObserver<Money> responseObserver) {
-    var accountNumber = request.getAccountNumber();             // номер аккаунта
-    var requestAmount = request.getAmount();                           // cумма для снятия
+    var accountNumber = request.getAccountNumber();                   // номер аккаунта
+    var requestAmount = request.getAmount();                          // cумма для снятия
     var balance       = accountRepository.getAccount(accountNumber);  // текущий баланс
 
     if (balance.getBalance() < requestAmount) {
@@ -58,12 +59,17 @@ public class BankService extends BankServiceGrpc.BankServiceImplBase {
       log.info("money sent: {}", money);
 
       // withdraw dollars
-      accountRepository.withdraw(accountNumber, money.getAmount());
+      accountRepository.minusBalance(accountNumber, money.getAmount());
 
       Uninterruptibles.sleepUninterruptibly(1, TimeUnit.SECONDS);
     }
 
     responseObserver.onCompleted();
 
+  }
+
+  @Override
+  public StreamObserver<DepositRequest> deposit(StreamObserver<AccountBalanceResponse> responseObserver) {
+    return new DepositRequestHandler(responseObserver);
   }
 }
