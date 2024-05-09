@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 @Slf4j
-public class UnaryBlockingTest extends AbstractTest {
+public class Lec01UnaryBlockingClientTest extends AbstractTest {
 
   @Test
   public void blockingStub() {
