@@ -117,3 +117,20 @@ service BookService {
 - game
 - chat
 - search response (побуквенный ввод и поиск)
+- позволяет совершить интерактивный стриминг в зависимости от нагрузки клиента
+```java
+14:42:06.460 INFO  [           main] kz.tansh.server.GrpcServer     : Server started on port: 6565, services: [v15.BankService, v15.TransferService]
+14:43:42.998 INFO  [ault-executor-0] k.t.r.TransferRequestHandler   : success money transfer, from: 1, to: 2, amount: 10
+14:44:03.801 INFO  [ault-executor-0] k.t.r.TransferRequestHandler   : success money transfer, from: 2, to: 1, amount: 100
+14:44:37.836 INFO  [ault-executor-0] k.t.r.TransferRequestHandler   : transfer completed from the client side, request stream is finished
+```
+
+![img.png](img/bi-streaming.png)
+
+
+### Поддержка gRPC с клиента
+- be aware of this, потому что гиганты так не делают
+- use Envoy proxy between, который передает до браузера HTTP 1.1 
+- only unary and server streaming
+- **IT DEPENDS**, by w3c specification
+- good choice is GraphQL for frontend communication and gRPC in backend communication
