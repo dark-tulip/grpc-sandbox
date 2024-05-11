@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package v16;
+
+option java_package="kz.tansh.proto.v16";
+option java_multiple_files=true;
+
+// backpressure (Обратное давление) или flow control
+message Output {
+  int32 value = 1;
+}
+
+message RequestSize {
+  int32 size = 1;
+}
+
+service FlowControlService {
+  rpc GetMessages(stream RequestSize) returns (stream Output);
+}
+
