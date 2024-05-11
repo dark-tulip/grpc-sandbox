@@ -127,6 +127,9 @@ service BookService {
 
 ![img.png](img/bi-streaming.png)
 
+#### Игра в пинг понг, пример реализации фейкового клиента см `GuessGameTest.java`
+
+![img.png](img/guess-game.png)
 
 ### Поддержка gRPC с клиента
 - be aware of this, потому что гиганты так не делают

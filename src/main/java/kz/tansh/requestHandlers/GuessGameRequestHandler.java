@@ -18,8 +18,8 @@ public class GuessGameRequestHandler implements StreamObserver<GuessRequest> {
 
   public GuessGameRequestHandler(StreamObserver<GuessResponse> guessResponseStreamObserver) {
     this.guessResponseStreamObserver = guessResponseStreamObserver;
-    hiddenNumber                     = new Random().nextInt(1, 10);
-    log.info("hidden number is: {}", hiddenNumber);
+    hiddenNumber                     = new Random().nextInt(1, 100);
+    log.info("BGVW6FJQ ::THE HIDDEN number is: {}", hiddenNumber);
   }
 
   @Override
