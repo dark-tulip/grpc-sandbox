@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package v17;
+
+option java_package = "kz.tansh.proto.v17";
+option java_multiple_files=true;
+
+message GuessRequest {
+  int32 value = 1;
+}
+
+enum GuessResult {
+  CORRECT = 0;
+  LOWER = 1;
+  HIGHER = 2;
+}
+
+message GuessResponse {
+  int32 attempt_number = 1;
+  GuessResult result = 2;
+}
+
+
+service GuessGameService {
+  rpc guess (stream GuessRequest) returns (stream GuessResponse);
+}

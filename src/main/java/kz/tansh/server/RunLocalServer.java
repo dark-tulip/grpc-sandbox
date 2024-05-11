@@ -2,6 +2,7 @@ package kz.tansh.server;
 
 import kz.tansh.L16_FlowControlService;
 import kz.tansh.services.BankService;
+import kz.tansh.services.GuessGameService;
 import kz.tansh.services.TransferService;
 
 public class RunLocalServer {
@@ -10,7 +11,8 @@ public class RunLocalServer {
     GrpcServer.create(6565,
                   new BankService(),
                   new TransferService(),
-                  new L16_FlowControlService()
+                  new L16_FlowControlService(),
+                  new GuessGameService()
               )
               .start()
               .await();
