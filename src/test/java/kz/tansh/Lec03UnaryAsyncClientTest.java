@@ -20,7 +20,7 @@ public class Lec03UnaryAsyncClientTest extends AbstractTest {
                                    .build();
 
     ResponseObserver<GetAccountResponse> observer = ResponseObserver.create();
-    this.stub.getAccountNumber(request, observer);
+    this.bankServiceStub.getAccountNumber(request, observer);
 
     observer.await();  // без ожидания тест не пройдет, соединение не успеет создаться
 
@@ -33,7 +33,7 @@ public class Lec03UnaryAsyncClientTest extends AbstractTest {
   public void getAllAccounts() {
     var observer = ResponseObserver.<GetAllAccountsResponse>create();
 
-    this.stub.getAllAccounts(Empty.newBuilder().build(), observer);
+    this.bankServiceStub.getAllAccounts(Empty.newBuilder().build(), observer);
 
     observer.await();
 

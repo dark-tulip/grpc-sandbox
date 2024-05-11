@@ -1,4 +1,4 @@
-package kz.tansh.services;
+package kz.tansh.server;
 
 import io.grpc.*;
 import lombok.extern.slf4j.Slf4j;

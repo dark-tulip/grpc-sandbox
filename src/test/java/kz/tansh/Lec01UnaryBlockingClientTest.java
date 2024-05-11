@@ -16,7 +16,7 @@ public class Lec01UnaryBlockingClientTest extends AbstractTest {
         .setAccountNumber(123)
         .build();
 
-    var response = this.blockingStub.getAccountNumber(request);
+    var response = this.bankServiceBlockingStub.getAccountNumber(request);
 
     log.info("response: " + response);
     Assertions.assertEquals(123, response.getAccountNumber());
@@ -24,7 +24,7 @@ public class Lec01UnaryBlockingClientTest extends AbstractTest {
 
   @Test
   public void getAllAccounts() {
-    var response = this.blockingStub.getAllAccounts(Empty.newBuilder().build());
+    var response = this.bankServiceBlockingStub.getAllAccounts(Empty.newBuilder().build());
     log.info("response: " + response);
     Assertions.assertEquals(4, response.getAccountsCount());
   }

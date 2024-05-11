@@ -24,7 +24,7 @@ public class Lec02UnaryAsyncClientTest extends AbstractTest {
     // чтобы успел напечататься асинхронный запрос
     CountDownLatch latch = new CountDownLatch(1);
 
-    this.stub.getAccountNumber(request, new StreamObserver<GetAccountResponse>() {
+    this.bankServiceStub.getAccountNumber(request, new StreamObserver<GetAccountResponse>() {
       @Override
       public void onNext(GetAccountResponse response) {
         log.info("response: " + response);
@@ -53,7 +53,7 @@ public class Lec02UnaryAsyncClientTest extends AbstractTest {
 
     var latch = new CountDownLatch(1);
 
-    this.stub.getAllAccounts(Empty.newBuilder().build(), new StreamObserver<>() {
+    this.bankServiceStub.getAllAccounts(Empty.newBuilder().build(), new StreamObserver<>() {
       @Override
       public void onNext(GetAllAccountsResponse response) {
         log.info("response: " + response);

@@ -20,7 +20,7 @@ public class Lec04ServerStreamingClientTest extends AbstractTest {
                                  .setAmount(20)
                                  .build();
 
-    Iterator<Money> iterator = this.blockingStub.withdrawAccount(request);
+    Iterator<Money> iterator = this.bankServiceBlockingStub.withdrawAccount(request);
 
     int cnt = 0;
 
@@ -43,7 +43,7 @@ public class Lec04ServerStreamingClientTest extends AbstractTest {
 
     var observer = ResponseObserver.<Money>create();
 
-    this.stub.withdrawAccount(request, observer);
+    this.bankServiceStub.withdrawAccount(request, observer);
 
     observer.await();
 

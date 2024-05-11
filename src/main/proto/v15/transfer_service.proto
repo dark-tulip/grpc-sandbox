@@ -12,13 +12,13 @@ enum TransferStatus {
   SUCCESS = 1;
 }
 
-message TransferResponse {
+message TransferRequest {
   int32 account_from = 1;
   int32 account_to = 2;
   Money amount = 3;
 }
 
-message TransferRequest {
+message TransferResponse {
   TransferStatus status = 1;
   AccountBalanceResponse account_from = 2;
   AccountBalanceResponse account_to = 3;
