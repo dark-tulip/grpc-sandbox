@@ -139,6 +139,9 @@ service BookService {
 - good choice is GraphQL for frontend communication and gRPC in backend communication
 
 
+###
+- (gRPC использует HTTP/2 для передачи данных, он также определяет свой собственный протокол сериализации сообщений и механизмы RPC поверх HTTP/2. Эти механизмы включают в себя коды статуса и ошибок, которые могут отличаться от стандартных кодов состояния HTTP/2.)
+
 ## Безопасность SSL/TLS
 - tls is upgraded version of ssl
 - jks is Java Keystore
