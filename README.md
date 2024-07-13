@@ -138,6 +138,63 @@ service BookService {
 - **IT DEPENDS**, by w3c specification
 - good choice is GraphQL for frontend communication and gRPC in backend communication
 
+### Request validation
+
+```java
+// how to setup validation
+public class RequestValidator {
+  public static Optional<Status> validateAccount(int accountNumber) {
+    if (accountNumber > 0 && accountNumber < 10) {
+      return Optional.empty();
+    }
+    return Optional.of(Status.INVALID_ARGUMENT.withDescription("Account number should be between 0 and 10"));
+  }
+
+  public static Optional<Status> isAmountDivisibleBy10(int amount) {
+    if (amount > 0 && amount % 10 == 0) {
+      return Optional.empty();
+    }
+    return Optional.of(Status.INVALID_ARGUMENT.withDescription("Amount should be divisible by 10"));
+  }
+
+  public static Optional<Status> hasEnoughBalance(int amount, int balance) {
+    if (amount <= balance) {
+      return Optional.empty();
+    }
+    return Optional.of(Status.INVALID_ARGUMENT.withDescription("Insufficient balance "));
+  }
+}
+
+
+// how to use
+@Slf4j
+public class L18BankService extends BankServiceGrpc.BankServiceImplBase {
+
+  AccountRepository accountRepository = new AccountRepository();
+
+  @Override
+  public void getAccountBalance(BankAccount request, StreamObserver<Money> responseObserver) {
+    RequestValidator.validateAccount(request.getAccountNumber())
+                    .map(Status::asRuntimeException)
+                    .ifPresentOrElse(
+                        responseObserver::onError,
+                        () -> sendAccountBalance(request, responseObserver)
+                    );
+  }
+
+  private void sendAccountBalance(BankAccount request, StreamObserver<Money> responseObserver) {
+    responseObserver.onNext(Money.newBuilder()
+                                 .setAmount(accountRepository.getAccount(request.getAccountNumber()).getBalance())
+                                 .build());
+
+    responseObserver.onCompleted();
+  }
+}
+```
+
+![img.png](img/request_validation2.png)
+
+![img.png](img/request_validation1.png)
 
 ###
 - (gRPC использует HTTP/2 для передачи данных, он также определяет свой собственный протокол сериализации сообщений и механизмы RPC поверх HTTP/2. Эти механизмы включают в себя коды статуса и ошибок, которые могут отличаться от стандартных кодов состояния HTTP/2.)
