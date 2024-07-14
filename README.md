@@ -196,6 +196,38 @@ public class L18BankService extends BankServiceGrpc.BankServiceImplBase {
 
 ![img.png](img/request_validation1.png)
 
+### Внутренняя ошибка сервера
+
+```java
+  @Override
+  public void withdraw(WithdrawRequest request, StreamObserver<Money> responseObserver) {
+    try {
+      if (request.getAccountNumber() == 999) {
+        /*
+         * Рандомная ошибка сервера. Если не обработать глобальным exception кинет неясное сообщение
+         * Operation couldn’t be completed because of an unknown error.
+         * Application error processing RPC
+         */
+        throw new RuntimeException("Some random error");
+      }
+
+      RequestValidator.validateAccount(request.getAccountNumber())
+                      .or(() -> RequestValidator.hasEnoughBalance(request.getAmount(), accountRepository.getAccount(request.getAccountNumber()).getBalance()))
+                      .or(() -> RequestValidator.isAmountDivisibleBy10(request.getAmount()))
+                      .map(Status::asRuntimeException)
+                      .ifPresentOrElse(
+                          responseObserver::onError,
+                          () -> sendMoney(request, responseObserver)
+                      );
+    } catch (Exception e) {
+      // благодаря этому блоку обработается рандомная серверная ошибка
+      responseObserver.onError(Status.INTERNAL.withDescription(e.getMessage()).asRuntimeException());
+    }
+  }
+```
+
+![img.png](img.png)
+
 ###
 - (gRPC использует HTTP/2 для передачи данных, он также определяет свой собственный протокол сериализации сообщений и механизмы RPC поверх HTTP/2. Эти механизмы включают в себя коды статуса и ошибок, которые могут отличаться от стандартных кодов состояния HTTP/2.)
 

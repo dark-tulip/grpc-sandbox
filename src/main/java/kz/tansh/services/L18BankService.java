@@ -40,7 +40,6 @@ public class L18BankService extends BankServiceGrpc.BankServiceImplBase {
 
   @Override
   public void withdraw(WithdrawRequest request, StreamObserver<Money> responseObserver) {
-
     try {
       if (request.getAccountNumber() == 999) {
         /*
