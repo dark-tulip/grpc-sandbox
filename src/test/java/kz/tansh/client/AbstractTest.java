@@ -5,8 +5,8 @@ import kz.tansh.proto.v15.BankServiceGrpc;
 import kz.tansh.proto.v15.TransferServiceGrpc;
 import kz.tansh.proto.v16.FlowControlServiceGrpc;
 import kz.tansh.server.GrpcServer;
-import kz.tansh.services.BankService;
-import kz.tansh.services.TransferService;
+import kz.tansh.L15_BankService;
+import kz.tansh.L15_TransferService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -15,8 +15,8 @@ import org.junit.jupiter.api.BeforeAll;
 @Slf4j
 public abstract class AbstractTest extends AbstractChannelTest {
   private final GrpcServer grpcServer = GrpcServer.create(
-      new BankService(),
-      new TransferService(),
+      new L15_BankService(),
+      new L15_TransferService(),
       new L16_FlowControlService()
   );
 

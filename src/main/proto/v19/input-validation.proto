@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package v19;
+
+option java_package = "kz.tansh.proto.v19";
+option java_multiple_files=true;
+
+message BankAccount {
+  int32 account_number = 1;
+}
+
+message Money {
+  int32 amount = 1;
+}
+
+message WithdrawRequest {
+  int32 account_number = 1;
+  int32 amount = 2;
+}
+
+enum ValidationStatusCode {
+  INVALID_ACCOUNT = 0;
+  INVALID_AMOUNT = 1;
+  INSUFFICIENT_BALANCE = 2;
+}
+
+message ErrorMessage {
+  ValidationStatusCode code = 1;
+  string description = 2;
+}
+
+/**
+  Валидация параметров процедур
+ */
+service BankService {
+  /**
+  Unary call
+  - номер аккаунта должен быть от 1 до 10
+  */
+  rpc GetAccountBalance(BankAccount) returns (Money);
+
+  /**
+  Server streaming call
+  - номер аккаунта должен быть от 1 до 10
+  - на счету должно быть достаточно средств
+  - запрос снятия баланса должен быть кратен 10ти
+  */
+  rpc Withdraw(WithdrawRequest) returns (stream Money);
+}

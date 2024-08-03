@@ -1,4 +1,4 @@
-package kz.tansh.services;
+package kz.tansh;
 
 import com.google.common.util.concurrent.Uninterruptibles;
 import com.google.protobuf.Empty;
@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 
 @Slf4j
-public class BankService extends BankServiceGrpc.BankServiceImplBase {
+public class L15_BankService extends BankServiceGrpc.BankServiceImplBase {
 
   AccountRepository accountRepository = new AccountRepository();
 

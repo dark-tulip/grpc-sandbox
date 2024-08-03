@@ -1,4 +1,4 @@
-package kz.tansh.services;
+package kz.tansh;
 
 import io.grpc.stub.StreamObserver;
 import kz.tansh.proto.v15.TransferRequest;
@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
  * BiDirectional streaming example
  */
 @Slf4j
-public class TransferService extends TransferServiceGrpc.TransferServiceImplBase {
+public class L15_TransferService extends TransferServiceGrpc.TransferServiceImplBase {
 
   @Override
   public StreamObserver<TransferRequest> transfer(StreamObserver<TransferResponse> responseObserver) {

@@ -231,6 +231,14 @@ public class L18BankService extends BankServiceGrpc.BankServiceImplBase {
 ###
 - (gRPC использует HTTP/2 для передачи данных, он также определяет свой собственный протокол сериализации сообщений и механизмы RPC поверх HTTP/2. Эти механизмы включают в себя коды статуса и ошибок, которые могут отличаться от стандартных кодов состояния HTTP/2.)
 
+### Metadata
+- grpc has something called Trailers - это заголовки отправляемые сервером во время завершения запроса
+- содержат информацию о статусе РПС вызова
+- Metadata отправляются в ответе инициаторе
+- Metadata == Headers
+- Trailers can contain application specific status codes
+- Обычные grpc Status - general status codes
+
 ## Безопасность SSL/TLS
 - tls is upgraded version of ssl
 - jks is Java Keystore

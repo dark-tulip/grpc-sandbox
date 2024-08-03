@@ -4,14 +4,13 @@ import kz.tansh.client.AbstractChannelTest;
 import kz.tansh.proto.v17.GuessGameServiceGrpc;
 import kz.tansh.responseHandler.GuessResponseHandlerForTest;
 import kz.tansh.server.GrpcServer;
-import kz.tansh.services.GuessGameService;
 import org.junit.jupiter.api.*;
 
 
 @TestInstance(value = TestInstance.Lifecycle.PER_CLASS)
 public class Lec08GuessGameTest extends AbstractChannelTest {
 
-  private final GrpcServer server = GrpcServer.create(new GuessGameService());
+  private final GrpcServer server = GrpcServer.create(new L17_GuessGameService());
 
   private GuessGameServiceGrpc.GuessGameServiceStub stub;
 

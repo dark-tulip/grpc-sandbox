@@ -1,8 +1,7 @@
-package kz.tansh.services;
+package kz.tansh;
 
 import com.google.common.util.concurrent.Uninterruptibles;
 import io.grpc.Status;
-import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
 import kz.tansh.proto.v18.BankAccount;
 import kz.tansh.proto.v18.BankServiceGrpc;
@@ -16,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 
 @Slf4j
-public class L18BankService extends BankServiceGrpc.BankServiceImplBase {
+public class L18_BankService extends BankServiceGrpc.BankServiceImplBase {
 
   AccountRepository accountRepository = new AccountRepository();
 
