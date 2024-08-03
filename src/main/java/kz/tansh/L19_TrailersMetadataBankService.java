@@ -4,6 +4,7 @@ import com.google.common.util.concurrent.Uninterruptibles;
 import com.google.protobuf.Message;
 import io.grpc.Metadata;
 import io.grpc.Status;
+import io.grpc.StatusRuntimeException;
 import io.grpc.protobuf.ProtoUtils;
 import io.grpc.stub.StreamObserver;
 import kz.tansh.proto.v19.*;
@@ -25,10 +26,7 @@ public class L19_TrailersMetadataBankService extends BankServiceGrpc.BankService
     RequestValidator.validateAccount(request.getAccountNumber())
                     .map(Status::asRuntimeException)
                     .ifPresentOrElse(
-                        (ex) -> {
-                          ex.getTrailers().put(ValidationStatusCode.);
-                          responseObserver.onError(ex.getTrailers().)
-                        },
+                        responseObserver::onError,
                         () -> sendAccountBalance(request, responseObserver)
                     );
   }
