@@ -1,10 +1,6 @@
 package kz.tansh.server;
 
-import kz.tansh.L16_FlowControlService;
-import kz.tansh.L15_BankService;
-import kz.tansh.L17_GuessGameService;
-import kz.tansh.L18_BankService;
-import kz.tansh.L15_TransferService;
+import kz.tansh.*;
 
 public class RunLocalServer {
 
@@ -14,7 +10,8 @@ public class RunLocalServer {
                   new L18_BankService(),
                   new L15_TransferService(),
                   new L16_FlowControlService(),
-                  new L17_GuessGameService()
+                  new L17_GuessGameService(),
+                  new L19_TrailersMetadataBankService()
               )
               .start()
               .await();

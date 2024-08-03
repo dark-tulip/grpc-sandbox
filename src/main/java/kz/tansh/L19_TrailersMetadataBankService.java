@@ -1,15 +1,14 @@
 package kz.tansh;
 
 import com.google.common.util.concurrent.Uninterruptibles;
-import com.google.protobuf.Message;
-import io.grpc.Metadata;
 import io.grpc.Status;
-import io.grpc.StatusRuntimeException;
-import io.grpc.protobuf.ProtoUtils;
 import io.grpc.stub.StreamObserver;
-import kz.tansh.proto.v19.*;
+import kz.tansh.proto.v19.BankAccount;
 import kz.tansh.proto.v19.BankServiceGrpc;
+import kz.tansh.proto.v19.Money;
+import kz.tansh.proto.v19.WithdrawRequest;
 import kz.tansh.repos.AccountRepository;
+import kz.tansh.validators.L19_RequestValidator;
 import kz.tansh.validators.RequestValidator;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,12 +22,11 @@ public class L19_TrailersMetadataBankService extends BankServiceGrpc.BankService
 
   @Override
   public void getAccountBalance(BankAccount request, StreamObserver<Money> responseObserver) {
-    RequestValidator.validateAccount(request.getAccountNumber())
-                    .map(Status::asRuntimeException)
-                    .ifPresentOrElse(
-                        responseObserver::onError,
-                        () -> sendAccountBalance(request, responseObserver)
-                    );
+    L19_RequestValidator.validateAccount(request.getAccountNumber())
+                        .ifPresentOrElse(
+                            responseObserver::onError,
+                            () -> sendAccountBalance(request, responseObserver)
+                        );
   }
 
   private void sendAccountBalance(BankAccount request, StreamObserver<Money> responseObserver) {
@@ -51,14 +49,13 @@ public class L19_TrailersMetadataBankService extends BankServiceGrpc.BankService
         throw new RuntimeException("Some random error");
       }
 
-      RequestValidator.validateAccount(request.getAccountNumber())
-                      .or(() -> RequestValidator.hasEnoughBalance(request.getAmount(), accountRepository.getAccount(request.getAccountNumber()).getBalance()))
-                      .or(() -> RequestValidator.isAmountDivisibleBy10(request.getAmount()))
-                      .map(Status::asRuntimeException)
-                      .ifPresentOrElse(
-                          responseObserver::onError,
-                          () -> sendMoney(request, responseObserver)
-                      );
+      L19_RequestValidator.validateAccount(request.getAccountNumber())
+                          .or(() -> L19_RequestValidator.hasEnoughBalance(request.getAmount(), accountRepository.getAccount(request.getAccountNumber()).getBalance()))
+                          .or(() -> L19_RequestValidator.isAmountDivisibleBy10(request.getAmount()))
+                          .ifPresentOrElse(
+                              responseObserver::onError,
+                              () -> sendMoney(request, responseObserver)
+                          );
     } catch (Exception e) {
       // благодаря этому блоку обработается рандомная серверная ошибка
       responseObserver.onError(Status.INTERNAL.withDescription(e.getMessage()).asRuntimeException());

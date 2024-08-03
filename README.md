@@ -239,6 +239,8 @@ public class L18BankService extends BankServiceGrpc.BankServiceImplBase {
 - Trailers can contain application specific status codes
 - Обычные grpc Status - general status codes
 
+![img_1.png](img/metadata_trailers.png)
+
 ## Безопасность SSL/TLS
 - tls is upgraded version of ssl
 - jks is Java Keystore
